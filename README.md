@@ -99,7 +99,7 @@ herdr pane, so an existing tmux setup keeps working — no need to remove
 source /path/to/vim-herdr-navigation/editor/vim.vim
 ```
 
-or, simplify copy and pasta.
+or, simply copy and pasta.
 
 ## Notes & tradeoffs
 
