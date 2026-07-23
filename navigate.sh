@@ -50,5 +50,20 @@ fi
 if [ "$forward" -eq 1 ]; then
   exec "$herdr" pane send-keys "$pane" "$key"
 else
-  exec "$herdr" pane focus --direction "$dir" --current
+  # Try pane focus first; if no neighbor, cycle workspace (up/down only).
+  result=$("$herdr" pane focus --direction "$dir" --current 2>/dev/null)
+  changed=$(echo "$result" | jq -r '.result.focus.changed')
+  if [ "$changed" = "false" ] && { [ "$dir" = "up" ] || [ "$dir" = "down" ]; } && command -v jq >/dev/null 2>&1; then
+    offset=1
+    [ "$dir" = "up" ] && offset=-1
+    target_id=$("$herdr" workspace list 2>/dev/null | jq -r --argjson off "$offset" '
+      (.result.workspaces | map(select(.focused))[0].number) as $f
+      | .result.workspaces[]
+      | select(.number == ($f + $off))
+      | .workspace_id
+    ')
+    if [ -n "$target_id" ] && [ "$target_id" != "null" ]; then
+      exec "$herdr" workspace focus "$target_id"
+    fi
+  fi
 fi

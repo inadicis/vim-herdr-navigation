@@ -1,5 +1,12 @@
 # vim-herdr-navigation
 
+> **Fork of [paulbkim-dev/vim-herdr-navigation](https://github.com/paulbkim-dev/vim-herdr-navigation)**
+>
+> **Changes in this fork:** When `Ctrl+j/k` hits a pane edge with no neighbor
+> (bottom/top of a workspace), it now cycles to the next/previous **workspace**
+> instead of stopping dead.
+> Requires changes on both sides herdr & nvim.
+
 Navigate [herdr](https://herdr.dev) panes and Vim/Neovim splits as if they were
 one app. `Ctrl+h/j/k/l` moves between Vim splits while you're in Vim, and falls
 through to move between herdr panes when Vim hits an edge — and the same keys
